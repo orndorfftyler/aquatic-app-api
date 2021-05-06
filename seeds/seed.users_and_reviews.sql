@@ -8,7 +8,7 @@ VALUES
     ('Pikachu','$2a$04$2d4jbxnHeUFZtBbgbNxyJuaG0ArlGThAFQt1BRlaXnbG4dnrZRPMS'),
     ('Squirtle', '$2a$04$IOdFJCcPq5MwZ1Pd7RNU5eVe6JDkt48G6Z79InupI/aoIRE.53SNK');
 
-INSERT INTO questions (questions_id, title, contents)
+INSERT INTO questions (question_id, title, contents)
 VALUES
     ('b0715eze-ffaf-11e8-8eb2-f2801f1b9fd1','What water temp is best?', 'question Corporis accusamus placeat quas non voluptas.'),
     ('b07161f6-ffaf-11e8-8eb2-f2801f1b9fd1','How fast do brine shrimp grow?', 'question Eos laudantium quia ab blanditiis'),
@@ -18,7 +18,7 @@ UPDATE questions SET user_id = 1 WHERE id = 1;
 UPDATE questions SET user_id = 2 WHERE id = 2;
 UPDATE questions SET user_id = 3 WHERE id = 3;
 
-INSERT INTO answers (answer_id, questions_id, title, contents)
+INSERT INTO answers (answer_id, question_id, title, contents)
 VALUES
     ('b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1', 'b0715eze-ffaf-11e8-8eb2-f2801f1b9fd1','Best answer ever', 'answer Corporis accusamus placeat quas non voluptas.'),
     ('b07161a6-ffaf-11e8-8eb2-f2801f1b9fd1', 'b07161f6-ffaf-11e8-8eb2-f2801f1b9fd1','Moderately good answer', 'answer Eos laudantium quia ab blanditiis'),
