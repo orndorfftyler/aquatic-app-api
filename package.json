@@ -1,0 +1,43 @@
+{
+  "name": "aquatic-app-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require test/setup.js --timeout 10000",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migrate": "postgrator --config postgrator-config.js",
+    "migrate:test": "env NODE_ENV=test npm run migrate",
+    "migrate:production": "heroku run npm run migrate",
+    "predeploy": "npm audit",
+    "deploy": "git push heroku master"
+  },
+  "keywords": [],
+  "engines": {
+    "node": "14.15.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.2",
+    "lodash": "^4.17.19",
+    "morgan": "^1.10.0",
+    "pg": "^8.5.1",
+    "postgrator-cli": "^3.2.0",
+    "postgresql": "0.0.1",
+    "xss": "^1.0.8"
+  },
+  "devDependencies": {
+    "chai": "^4.3.3",
+    "mocha": "^7.2.0",
+    "nodemon": "^2.0.4",
+    "supertest": "^4.0.2"
+  }
+}
