@@ -10,9 +10,9 @@ VALUES
 
 INSERT INTO questions (question_id, title, contents)
 VALUES
-    ('b0715eze-ffaf-11e8-8eb2-f2801f1b9fd1','What water temp is best?', 'question Corporis accusamus placeat quas non voluptas.'),
-    ('b07161f6-ffaf-11e8-8eb2-f2801f1b9fd1','How fast do brine shrimp grow?', 'question Eos laudantium quia ab blanditiis'),
-    ('b07162b0-ffaf-11e8-8eb2-f2801f1b9fd1', 'Can I grow jellyfish in a fish tank?', 'question Occaecati dignissimos quam qui');
+    ('513d8e7a-34b5-43e8-91cb-891a34e59d0a','What water temp is best?', 'question Corporis accusamus placeat quas non voluptas.'),
+    ('0988c8b4-69e9-4fb8-b34d-cd3652a546fd','How fast do brine shrimp grow?', 'question Eos laudantium quia ab blanditiis'),
+    ('772b2693-f32a-4972-a205-881b3c18b8cc', 'Can I grow jellyfish in a fish tank?', 'question Occaecati dignissimos quam qui');
 
 UPDATE questions SET user_id = 1 WHERE id = 1;
 UPDATE questions SET user_id = 2 WHERE id = 2;
@@ -20,9 +20,9 @@ UPDATE questions SET user_id = 3 WHERE id = 3;
 
 INSERT INTO answers (answer_id, question_id, title, contents)
 VALUES
-    ('b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1', 'b0715eze-ffaf-11e8-8eb2-f2801f1b9fd1','Best answer ever', 'answer Corporis accusamus placeat quas non voluptas.'),
-    ('b07161a6-ffaf-11e8-8eb2-f2801f1b9fd1', 'b07161f6-ffaf-11e8-8eb2-f2801f1b9fd1','Moderately good answer', 'answer Eos laudantium quia ab blanditiis'),
-    ('b07162f0-ffaf-11e8-8eb2-f2801f1b9fd1', 'b07162b0-ffaf-11e8-8eb2-f2801f1b9fd1', 'OK answer', 'answer Occaecati dignissimos quam qui');
+    ('62c2e46d-a262-4332-9909-c3717364169e', '513d8e7a-34b5-43e8-91cb-891a34e59d0a','Best answer ever', 'answer Corporis accusamus placeat quas non voluptas.'),
+    ('3e0ace45-5420-47d9-b6ac-7ce678d9ec34', '0988c8b4-69e9-4fb8-b34d-cd3652a546fd','Moderately good answer', 'answer Eos laudantium quia ab blanditiis'),
+    ('86b63d85-5d30-4b96-9db7-743d5aeea2d5', '772b2693-f32a-4972-a205-881b3c18b8cc', 'OK answer', 'answer Occaecati dignissimos quam qui');
   
 UPDATE answers SET user_id = 3 WHERE id = 1;
 UPDATE answers SET user_id = 1 WHERE id = 2;
