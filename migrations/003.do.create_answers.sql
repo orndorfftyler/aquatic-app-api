@@ -4,7 +4,8 @@ CREATE TABLE answers (
   question_id UUID NOT NULL,
   title TEXT,
   contents TEXT,
-  user_id INTEGER REFERENCES users(id)
+  user_id INTEGER REFERENCES users(id),
+  username TEXT
 );
 
 

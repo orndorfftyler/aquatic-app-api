@@ -1,9 +1,9 @@
 const express = require('express')
-const reviewRouter = express.Router()
+const questionRouter = express.Router()
 const bodyParser = express.json()
 const { v4: uuid } = require('uuid')
 
-const ReviewsService = require('../reviews-service')
+const QuestionsService = require('./questions-service')
 const UsersService = require('../users-service')
 const jsonParser = express.json()
 const xss = require('xss')
@@ -27,38 +27,7 @@ function processReviews(arrObj) {
   return outArr;
 }
 
-
-reviewRouter
-  .route('/test/:review_id')
-  .get((req, res, next) => {
-    ReviewsService.getTest(
-      req.app.get('db'),
-      req.params.review_id)
-
-    .then(out => {
-      return res.status(200).json(out)
-    })
-    .catch(next)
-    
-  })
-  .post(jsonParser, (req, res, next) => {
-    let { user_id, review_id, book_id } = req.body
-    let newRev = { user_id, review_id, book_id }
-    ReviewsService.postTest(
-      req.app.get('db'),
-      newRev
-    )
-    .then(out => {
-      res.status(200).json(out)
-    })
-    
-    .catch(next)
-  })
-
-
-
-
-reviewRouter
+questionRouter
   .route('/users/')
   .post(jsonParser, (req, res, next) => {
     const { password, user_name} = req.body
@@ -99,11 +68,11 @@ reviewRouter
       .catch(next)
   })
 
-reviewRouter
+questionRouter
   .route('/users/:username')
   .all(requireAuth)
   .get((req, res, next) => {
-    ReviewsService.getUserId(
+    QuestionsService.getUserId(
       req.app.get('db'),
       req.params.username
     )
@@ -115,11 +84,13 @@ reviewRouter
       .catch(next)
   })
 
-reviewRouter
-  .route('/reviewsperbook/:book_id')
+questionRouter
+  //.route('/reviewsperbook/:book_id')
+  .route('/anwersperquestion/:question_id')
+
   .all(requireAuth)
   .get((req, res, next) => {
-    ReviewsService.getAllReviewsPerBook(
+    QuestionsService.getAllAnswersPerQuestion(
       req.app.get('db'),
       req.params.book_id
     )
@@ -151,7 +122,7 @@ reviewRouter
     delete newRev.bookId;
     delete newRev.helpCount;
 
-    ReviewsService.insertReview(
+    QuestionsService.insertAnswer(
       req.app.get('db'),
       newRev
     )
@@ -164,11 +135,12 @@ reviewRouter
   .catch(next)
   })
 
-reviewRouter
-  .route('/reviews/:review_id')
+questionRouter
+  //.route('/reviews/:review_id')
+  .route('/answers/:answer_id')
   .all(requireAuth)
   .all((req, res, next) => {
-    ReviewsService.getById(
+    QuestionsService.getAnswerById(
       req.app.get('db'),
       req.params.review_id
     )
@@ -195,7 +167,7 @@ reviewRouter
 
   })
   .delete((req, res, next) => {
-    ReviewsService.deleteReview(
+    QuestionsService.deleteAnswer(
       req.app.get('db'),
       req.params.review_id
     )
@@ -224,7 +196,7 @@ reviewRouter
     delete updateRev.bookId;
     delete updateRev.helpCount;
     
-    ReviewsService.updateReview(
+    QuestionsService.updateAnswer(
       req.app.get('db'),
       req.params.review_id,
       updateRev
@@ -235,46 +207,5 @@ reviewRouter
       .catch(next)
   })
 
-//----------------------------------------------- helpful endpoints
 
-  reviewRouter
-  .route('/helpfulreview/:review_id')
-  .all(requireAuth)
-  .get((req, res, next) => {
-    ReviewsService.getHelpfulByReviewId(
-      req.app.get('db'),
-      req.params.review_id
-    )
-      
-      .then(helpfuls => {
-        res.json(helpfuls)
-      })
-      
-      .catch(next)
-  })
-    
-  .post(jsonParser, (req, res, next) => {
-    let { user_id, review_id, book_id } = req.body
-    let newRev = { user_id, review_id, book_id }
-    
-    for (const [key, value] of Object.entries(newRev)) {
-      if (value == null) {
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-      }
-    }
-
-    ReviewsService.insertHelpful(
-      req.app.get('db'),
-      newRev
-    )
-    .then(helpful => {
-      res
-        .status(201)
-        .json(helpful)
-    })
-  .catch(next)
-  })
-
-module.exports = reviewRouter
+module.exports = questionRouter
