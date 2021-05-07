@@ -92,12 +92,12 @@ questionRouter
   .get((req, res, next) => {
     QuestionsService.getAllAnswersPerQuestion(
       req.app.get('db'),
-      req.params.book_id
+      req.params.question_id
     )
       
       .then(reviews => {
-        let procRev = processReviews(reviews);
-        res.json(procRev)
+        //let procRev = processReviews(reviews);
+        res.json(reviews)
       })
       
       .catch(next)
