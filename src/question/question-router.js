@@ -104,8 +104,9 @@ questionRouter
   })
     
   .post(jsonParser, (req, res, next) => {
-    let { reviewId, bookId, title, contents, helpCount, user } = req.body
-    let newRev = { reviewId, bookId, title, contents, helpCount, user }
+    let { answer_id, question_id, title, contents, user_id, username } = req.body
+    //let newRev = { reviewId, bookId, title, contents, helpCount, user }
+    let newRev = { answer_id, question_id, title, contents, user_id, username }
     
     for (const [key, value] of Object.entries(newRev)) {
       if (value == null) {
@@ -114,14 +115,14 @@ questionRouter
         })
       }
     }
-
+/*
     newRev.review_id = newRev.reviewId;
     newRev.book_id = newRev.bookId;
     newRev.help_count = newRev.helpCount;
     delete newRev.reviewId;
     delete newRev.bookId;
     delete newRev.helpCount;
-
+*/
     QuestionsService.insertAnswer(
       req.app.get('db'),
       newRev
