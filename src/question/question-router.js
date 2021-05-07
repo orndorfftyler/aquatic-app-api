@@ -86,7 +86,7 @@ questionRouter
 
 questionRouter
   //.route('/reviewsperbook/:book_id')
-  .route('/anwersperquestion/:question_id')
+  .route('/answersperquestion/:question_id')
 
   .all(requireAuth)
   .get((req, res, next) => {
