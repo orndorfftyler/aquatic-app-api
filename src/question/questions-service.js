@@ -37,7 +37,9 @@ const QuestionsService = {
         return knex.from('questions').select('*').where('user_id', user_id);
 
     },
-
+    searchByTerm(knex, termArr) {
+        return knex.from('questions').select('*').where(knex.raw(to_tsvector('english', contents) @@ to_tsquery('english', 'question')));
+    }
 
 
 

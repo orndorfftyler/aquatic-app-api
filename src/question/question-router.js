@@ -229,7 +229,24 @@ questionRouter
       .catch(next)
   })
 
+  questionRouter
+  //.route('/reviewsperbook/:book_id')
+  .route('/questions/')
 
+  .all(requireAuth)
+  .get((req, res, next) => {
+    QuestionsService.searchByTerm(
+      req.app.get('db'),
+      req.params.user_id
+    )
+      
+      .then(answers => {
+        //let procRev = processReviews(reviews);
+        res.json(answers)
+      })
+      
+      .catch(next)
+  })
 
 
 
