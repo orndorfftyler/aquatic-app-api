@@ -48,7 +48,15 @@ const QuestionsService = {
             .then(rows => {
                 return rows[0]
             })
+    },
+    deleteQuestion(knex, question_id) {
+        return knex.from('questions').select('*').where('question_id', question_id).delete()
+    },
+    updateQuestion(knex, newQuestionFields) {
+        return knex.from('questions').select('*').where('question_id', newQuestionFields.question_id).first().update(newQuestionFields)
     }
+
+
 
 
 

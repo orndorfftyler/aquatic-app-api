@@ -275,6 +275,61 @@ questionRouter
 
   questionRouter
   .route('/questions/:question_id')
+  .all(requireAuth)
+  .all((req, res, next) => {
+    QuestionsService.getAnswerById(
+      req.app.get('db'),
+      req.params.answer_id
+    )
+      .then(answer => {
+        if (!answer) {
+          return res.status(404).json({
+            error: { message: `answer doesn't exist` }
+          })
+        }
+        res.answer = answer 
+        next() 
+      })
+      .catch(next)
+  })
+  .delete((req, res, next) => {
+    QuestionsService.deleteQuestion(
+      req.app.get('db'),
+      req.params.question_id
+    )
+    .then(() => {
+      res.status(204).end()
+    })
+    .catch(next)  
+  })
+  .patch(jsonParser, (req, res, next) => {
+    let { question_id, title, contents, user_id, username } = req.body
+    let updateQue = { question_id, title, contents, user_id, username }
+
+    const numberOfValues = Object.values(updateQue).filter(Boolean).length
+    if (numberOfValues === 0) {
+      return res.status(400).json({
+        error: {
+          message: `Request body must contain answer_id, question_id, title, contents, user_id, username`
+        }
+      })
+    }
+/*
+    updateQue.answer_id = updateQue.answerId;
+    updateQue.question_id = updateQue.questionId;
+    delete updateQue.answerId;
+    delete updateQue.questionId;
+    */
+    QuestionsService.updateQuestion(
+      req.app.get('db'),
+      updateQue
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+
 
 
 
