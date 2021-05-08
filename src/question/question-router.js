@@ -238,7 +238,7 @@ questionRouter
       
       .catch(next)
   })
-
+/*
   questionRouter
   .route('/questions/')
 
@@ -254,12 +254,12 @@ questionRouter
         })
       }
     }
-/*
-    newAns.answer_id = newAns.answerId;
-    newAns.question_id = newAns.questionId;
-    delete newAns.answerId;
-    delete newAns.questionId;
-*/
+
+    //newAns.answer_id = newAns.answerId;
+    //newAns.question_id = newAns.questionId;
+    //delete newAns.answerId;
+    //delete newAns.questionId;
+
     QuestionsService.insertQuestion(
       req.app.get('db'),
       newQue
@@ -267,12 +267,12 @@ questionRouter
     .then(answer => {
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl/*, `/${answer.question_id}`*/))
+        .location(path.posix.join(req.originalUrl))
         .json(answer)
     })
   .catch(next)
   })
-
+*/
   questionRouter
   .route('/questions/:question_id')
   .all(requireAuth)
