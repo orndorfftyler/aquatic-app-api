@@ -54,7 +54,11 @@ const QuestionsService = {
     },
     updateQuestion(knex, newQuestionFields) {
         return knex.from('questions').select('*').where('question_id', newQuestionFields.question_id).first().update(newQuestionFields)
-    }
+    },
+    getQuestionById(knex, question_id) {
+        return knex.from('questions').select('*').where('question_id', question_id).first()
+    },
+
 
 
 

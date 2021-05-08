@@ -277,14 +277,14 @@ questionRouter
   .route('/questions/:question_id')
   .all(requireAuth)
   .all((req, res, next) => {
-    QuestionsService.getAnswerById(
+    QuestionsService.getQuestionById(
       req.app.get('db'),
       req.params.question_id
     )
       .then(answer => {
         if (!answer) {
           return res.status(404).json({
-            error: { message: `answer doesn't exist` }
+            error: { message: `question doesn't exist` }
           })
         }
         res.answer = answer 
