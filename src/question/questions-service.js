@@ -27,8 +27,8 @@ const QuestionsService = {
     deleteAnswer(knex, answer_id) {
         return knex.from('answers').select('*').where('answer_id', answer_id).delete()
     },
-    updateAnswer(knex, answer_id, newAnswerFields) {
-        return knex.from('answers').select('*').where('answer_id', answer_id).first().update(newAnswerFields)
+    updateAnswer(knex, newAnswerFields) {
+        return knex.from('answers').select('*').where('answer_id', newAnswerFields.answer_id).first().update(newAnswerFields)
     },
     getUserId(knex, username) {
         return knex.from('users').select('id').where('username', username).first()

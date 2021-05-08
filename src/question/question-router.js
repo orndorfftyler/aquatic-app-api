@@ -95,9 +95,9 @@ questionRouter
       req.params.question_id
     )
       
-      .then(reviews => {
+      .then(answers => {
         //let procRev = processReviews(reviews);
-        res.json(reviews)
+        res.json(answers)
       })
       
       .catch(next)
@@ -127,11 +127,11 @@ questionRouter
       req.app.get('db'),
       newRev
     )
-    .then(review => {
+    .then(answer => {
       res
         .status(201)
         .location(path.posix.join(req.originalUrl/*, `/${review.book_id}`*/))
-        .json(review)
+        .json(answer)
     })
   .catch(next)
   })
@@ -143,19 +143,20 @@ questionRouter
   .all((req, res, next) => {
     QuestionsService.getAnswerById(
       req.app.get('db'),
-      req.params.review_id
+      req.params.answer_id
     )
-      .then(review => {
-        if (!review) {
+      .then(answer => {
+        if (!answer) {
           return res.status(404).json({
-            error: { message: `review doesn't exist` }
+            error: { message: `answer doesn't exist` }
           })
         }
-        res.review = review 
+        res.answer = answer 
         next() 
       })
       .catch(next)
   })
+  /*
   .get((req, res, next) => {
     res.json({
       reviewId: res.review.review_id,
@@ -167,10 +168,11 @@ questionRouter
     })
 
   })
+  */
   .delete((req, res, next) => {
     QuestionsService.deleteAnswer(
       req.app.get('db'),
-      req.params.review_id
+      req.params.answer_id
     )
     .then(() => {
       res.status(204).end()
@@ -178,28 +180,28 @@ questionRouter
     .catch(next)  
   })
   .patch(jsonParser, (req, res, next) => {
-    let { reviewId, bookId, title, contents, helpCount } = req.body
-    let updateRev = { reviewId, bookId, title, contents, helpCount }
+    let { answer_id, question_id, title, contents, user_id, username } = req.body
+    //let updateRev = { reviewId, bookId, title, contents, helpCount }
+    let updateAns = { answer_id, question_id, title, contents, user_id, username }
 
-    const numberOfValues = Object.values(updateRev).filter(Boolean).length
+    const numberOfValues = Object.values(updateAns).filter(Boolean).length
     if (numberOfValues === 0) {
       return res.status(400).json({
         error: {
-          message: `Request body must contain reviewId, bookId, title, contents, helpCount`
+          message: `Request body must contain answer_id, question_id, title, contents, user_id, username`
         }
       })
     }
-
+/*
     updateRev.review_id = updateRev.reviewId;
     updateRev.book_id = updateRev.bookId;
     updateRev.help_count = updateRev.helpCount;
     delete updateRev.reviewId;
     delete updateRev.bookId;
     delete updateRev.helpCount;
-    
+    */
     QuestionsService.updateAnswer(
       req.app.get('db'),
-      req.params.review_id,
       updateRev
     )
       .then(numRowsAffected => {
