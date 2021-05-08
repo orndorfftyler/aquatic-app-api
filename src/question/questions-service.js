@@ -38,7 +38,7 @@ const QuestionsService = {
 
     },
     searchByTerm(knex, termArr) {
-        return knex.from('questions').select('*').where(knex.raw(to_tsvector('english', contents) @@ to_tsquery('english', 'question')));
+        return knex.from('questions').select('*').where('contents', 'like', '%question%');
     }
 
 
