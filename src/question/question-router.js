@@ -222,7 +222,7 @@ questionRouter
   })
 
   questionRouter
-  .route('/questions/:search_term')
+  .route('/questionsearch/:search_term')
 
   .all(requireAuth)
   .get((req, res, next) => {
@@ -272,6 +272,9 @@ questionRouter
     })
   .catch(next)
   })
+
+  questionRouter
+  .route('/questions/:question_id')
 
 
 
