@@ -39,6 +39,7 @@ const QuestionsService = {
     },
     searchByTerm(knex, termArr) {
         let outArr =[];
+        console.log('termArr ' + termArr)
         for (let i = 0; i < termArr.length; i++) {
             if (outArr.length < 10) {
                 let tempArr = knex.from('questions').select('*').where('contents', 'like', `%${termArr[i]}%`)
