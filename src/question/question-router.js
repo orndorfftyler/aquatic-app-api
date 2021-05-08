@@ -235,9 +235,11 @@ questionRouter
 
   .all(requireAuth)
   .get((req, res, next) => {
+    let termArr = req.body
+
     QuestionsService.searchByTerm(
       req.app.get('db'),
-      req.params.user_id
+      termArr
     )
       
       .then(answers => {
