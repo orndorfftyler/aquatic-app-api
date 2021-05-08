@@ -202,7 +202,7 @@ questionRouter
     */
     QuestionsService.updateAnswer(
       req.app.get('db'),
-      updateRev
+      updateAns
     )
       .then(numRowsAffected => {
         res.status(204).end()
