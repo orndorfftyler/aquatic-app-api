@@ -239,10 +239,8 @@ questionRouter
       .catch(next)
   })
 
-// change to post questions
-
   questionRouter
-  .route('/questions/:question_id')
+  .route('/questions/')
 
   .all(requireAuth)
   .post(jsonParser, (req, res, next) => {
