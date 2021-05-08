@@ -38,7 +38,7 @@ const QuestionsService = {
 
     },
     searchByTerm(knex, term) {
-        return knex.from('questions').select('*').where('contents', 'like', `%${term}%`);
+        return knex.from('questions').select('*').where('contents', 'like', `%${term}%`).orWhere('title', 'like', `%${term}%`);
     }
 
 
