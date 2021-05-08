@@ -210,5 +210,29 @@ questionRouter
       .catch(next)
   })
 
+  questionRouter
+  //.route('/reviewsperbook/:book_id')
+  .route('/questionsperuser/:user_id')
+
+  .all(requireAuth)
+  .get((req, res, next) => {
+    QuestionsService.getAllQuestionsPerUser(
+      req.app.get('db'),
+      req.params.user_id
+    )
+      
+      .then(answers => {
+        //let procRev = processReviews(reviews);
+        res.json(answers)
+      })
+      
+      .catch(next)
+  })
+
+
+
+
+
+
 
 module.exports = questionRouter

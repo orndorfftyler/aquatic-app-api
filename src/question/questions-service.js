@@ -33,6 +33,11 @@ const QuestionsService = {
     getUserId(knex, username) {
         return knex.from('users').select('id').where('username', username).first()
     },
+    getAllQuestionsPerUser(knex, user_id) {
+        return knex.from('questions').select('*').where('user_id', user_id);
+
+    },
+
 
 
 
