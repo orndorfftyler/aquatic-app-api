@@ -39,6 +39,15 @@ const QuestionsService = {
     },
     searchByTerm(knex, term) {
         return knex.from('questions').select('*').where('contents', 'like', `%${term}%`).orWhere('title', 'like', `%${term}%`);
+    },
+    insertQuestion(knex, question) {
+        return knex
+            .insert(question)
+            .into('questions')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
     }
 
 

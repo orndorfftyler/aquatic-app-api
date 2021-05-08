@@ -11,21 +11,22 @@ const path = require('path')
 
 const { requireAuth } = require('../middleware/jwt-auth')
 
-function processReviews(arrObj) {
+/*
+function processAnswers(arrObj) {
   
   let outArr = [];
   for (let i = 0; i < arrObj.length; i++ ){
     let temp = {};
-    temp.reviewId = arrObj[i]['review_id'];
-    temp.bookId = arrObj[i]['book_id'];
+    temp.answerId = arrObj[i]['answer_id'];
+    temp.questionId = arrObj[i]['question_id'];
     temp.title = arrObj[i]['title'];
     temp.contents = arrObj[i]['contents'];
-    temp.helpCount = arrObj[i]['help_count'];
     temp.user = arrObj[i]['user_id'];
     outArr.push(temp);
   }
   return outArr;
 }
+*/
 
 questionRouter
   .route('/users/')
@@ -85,7 +86,6 @@ questionRouter
   })
 
 questionRouter
-  //.route('/reviewsperbook/:book_id')
   .route('/answersperquestion/:question_id')
 
   .all(requireAuth)
@@ -96,7 +96,7 @@ questionRouter
     )
       
       .then(answers => {
-        //let procRev = processReviews(reviews);
+        //let procRev = processAnswers(answers);
         res.json(answers)
       })
       
@@ -105,10 +105,9 @@ questionRouter
     
   .post(jsonParser, (req, res, next) => {
     let { answer_id, question_id, title, contents, user_id, username } = req.body
-    //let newRev = { reviewId, bookId, title, contents, helpCount, user }
-    let newRev = { answer_id, question_id, title, contents, user_id, username }
+    let newAns = { answer_id, question_id, title, contents, user_id, username }
     
-    for (const [key, value] of Object.entries(newRev)) {
+    for (const [key, value] of Object.entries(newAns)) {
       if (value == null) {
         return res.status(400).json({
           error: { message: `Missing '${key}' in request body` }
@@ -116,28 +115,25 @@ questionRouter
       }
     }
 /*
-    newRev.review_id = newRev.reviewId;
-    newRev.book_id = newRev.bookId;
-    newRev.help_count = newRev.helpCount;
-    delete newRev.reviewId;
-    delete newRev.bookId;
-    delete newRev.helpCount;
+    newAns.answer_id = newAns.answerId;
+    newAns.question_id = newAns.questionId;
+    delete newAns.answerId;
+    delete newAns.questionId;
 */
     QuestionsService.insertAnswer(
       req.app.get('db'),
-      newRev
+      newAns
     )
     .then(answer => {
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl/*, `/${review.book_id}`*/))
+        .location(path.posix.join(req.originalUrl/*, `/${answer.answer_id}`*/))
         .json(answer)
     })
   .catch(next)
   })
 
 questionRouter
-  //.route('/reviews/:review_id')
   .route('/answers/:answer_id')
   .all(requireAuth)
   .all((req, res, next) => {
@@ -159,12 +155,11 @@ questionRouter
   /*
   .get((req, res, next) => {
     res.json({
-      reviewId: res.review.review_id,
-      bookId: xss(res.review.book_id), 
-      title: res.review.title,
-      contents: res.review.contents,
-      helpCount: xss(res.review.help_count),
-      user: res.review.user_id
+      answerId: res.answer.answer_id,
+      questionId: xss(res.answer.question_id), 
+      title: res.answer.title,
+      contents: res.answer.contents,
+      user: res.answer.user_id
     })
 
   })
@@ -181,7 +176,6 @@ questionRouter
   })
   .patch(jsonParser, (req, res, next) => {
     let { answer_id, question_id, title, contents, user_id, username } = req.body
-    //let updateRev = { reviewId, bookId, title, contents, helpCount }
     let updateAns = { answer_id, question_id, title, contents, user_id, username }
 
     const numberOfValues = Object.values(updateAns).filter(Boolean).length
@@ -193,12 +187,10 @@ questionRouter
       })
     }
 /*
-    updateRev.review_id = updateRev.reviewId;
-    updateRev.book_id = updateRev.bookId;
-    updateRev.help_count = updateRev.helpCount;
-    delete updateRev.reviewId;
-    delete updateRev.bookId;
-    delete updateRev.helpCount;
+    updateAns.answer_id = updateAns.answerId;
+    updateAns.question_id = updateAns.questionId;
+    delete updateAns.answerId;
+    delete updateAns.questionId;
     */
     QuestionsService.updateAnswer(
       req.app.get('db'),
@@ -210,8 +202,9 @@ questionRouter
       .catch(next)
   })
 
+//-------------------------------------------- Questions endpoints
+
   questionRouter
-  //.route('/reviewsperbook/:book_id')
   .route('/questionsperuser/:user_id')
 
   .all(requireAuth)
@@ -222,7 +215,6 @@ questionRouter
     )
       
       .then(answers => {
-        //let procRev = processReviews(reviews);
         res.json(answers)
       })
       
@@ -230,12 +222,10 @@ questionRouter
   })
 
   questionRouter
-  //.route('/reviewsperbook/:book_id')
   .route('/questions/:search_term')
 
   .all(requireAuth)
   .get((req, res, next) => {
-    //let termArr = req.body
 
     QuestionsService.searchByTerm(
       req.app.get('db'),
@@ -243,13 +233,47 @@ questionRouter
     )
       
       .then(answers => {
-        //let procRev = processReviews(reviews);
         res.json(answers)
       })
       
       .catch(next)
   })
 
+// change to post questions
+
+  questionRouter
+  .route('/questions/:question_id')
+
+  .all(requireAuth)
+  .post(jsonParser, (req, res, next) => {
+    let { question_id, title, contents, user_id, username } = req.body
+    let newQue = { question_id, title, contents, user_id, username }
+    
+    for (const [key, value] of Object.entries(newQue)) {
+      if (value == null) {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+      }
+    }
+/*
+    newAns.answer_id = newAns.answerId;
+    newAns.question_id = newAns.questionId;
+    delete newAns.answerId;
+    delete newAns.questionId;
+*/
+    QuestionsService.insertQuestion(
+      req.app.get('db'),
+      newQue
+    )
+    .then(answer => {
+      res
+        .status(201)
+        .location(path.posix.join(req.originalUrl/*, `/${answer.question_id}`*/))
+        .json(answer)
+    })
+  .catch(next)
+  })
 
 
 
