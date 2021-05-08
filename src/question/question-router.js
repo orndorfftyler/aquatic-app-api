@@ -279,7 +279,7 @@ questionRouter
   .all((req, res, next) => {
     QuestionsService.getAnswerById(
       req.app.get('db'),
-      req.params.answer_id
+      req.params.question_id
     )
       .then(answer => {
         if (!answer) {
