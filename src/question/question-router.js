@@ -231,15 +231,15 @@ questionRouter
 
   questionRouter
   //.route('/reviewsperbook/:book_id')
-  .route('/questions/')
+  .route('/questions/:search_term')
 
   .all(requireAuth)
   .get((req, res, next) => {
-    let termArr = req.body
+    //let termArr = req.body
 
     QuestionsService.searchByTerm(
       req.app.get('db'),
-      termArr
+      req.params.search_term
     )
       
       .then(answers => {
