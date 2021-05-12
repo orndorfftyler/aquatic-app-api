@@ -224,7 +224,6 @@ questionRouter
   questionRouter
   .route('/questionsearch/:search_term')
 
-  .all(requireAuth)
   .get((req, res, next) => {
 
     QuestionsService.searchByTerm(
