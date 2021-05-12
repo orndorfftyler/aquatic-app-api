@@ -238,7 +238,7 @@ questionRouter
       
       .catch(next)
   })
-/*
+
   questionRouter
   .route('/questions/')
 
@@ -272,7 +272,7 @@ questionRouter
     })
   .catch(next)
   })
-*/
+
   questionRouter
   .route('/questions/:question_id')
   .all(requireAuth)
