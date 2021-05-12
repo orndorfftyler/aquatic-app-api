@@ -106,6 +106,36 @@ questionRouter
 questionRouter
   .route('/answers/:answer_id')
   .all(requireAuth)
+  .post(jsonParser, (req, res, next) => {
+    let { answer_id, question_id, title, contents, user_id, username } = req.body
+    let newAns = { answer_id, question_id, title, contents, user_id, username }
+    
+    for (const [key, value] of Object.entries(newAns)) {
+      if (value == null) {
+        return res.status(400).json({
+          error: { message: `Missing '${key}' in request body` }
+        })
+      }
+    }
+/*
+    newAns.answer_id = newAns.answerId;
+    newAns.question_id = newAns.questionId;
+    delete newAns.answerId;
+    delete newAns.questionId;
+*/
+    QuestionsService.insertAnswer(
+      req.app.get('db'),
+      newAns
+    )
+    .then(answer => {
+      res
+        .status(201)
+        .location(path.posix.join(req.originalUrl/*, `/${answer.answer_id}`*/))
+        .json(answer)
+    })
+  .catch(next)
+  })
+
   .all((req, res, next) => {
     QuestionsService.getAnswerById(
       req.app.get('db'),
@@ -170,35 +200,6 @@ questionRouter
         res.status(204).end()
       })
       .catch(next)
-  })
-  .post(jsonParser, (req, res, next) => {
-    let { answer_id, question_id, title, contents, user_id, username } = req.body
-    let newAns = { answer_id, question_id, title, contents, user_id, username }
-    
-    for (const [key, value] of Object.entries(newAns)) {
-      if (value == null) {
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
-      }
-    }
-/*
-    newAns.answer_id = newAns.answerId;
-    newAns.question_id = newAns.questionId;
-    delete newAns.answerId;
-    delete newAns.questionId;
-*/
-    QuestionsService.insertAnswer(
-      req.app.get('db'),
-      newAns
-    )
-    .then(answer => {
-      res
-        .status(201)
-        .location(path.posix.join(req.originalUrl/*, `/${answer.answer_id}`*/))
-        .json(answer)
-    })
-  .catch(next)
   })
 
 
