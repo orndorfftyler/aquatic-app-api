@@ -232,8 +232,8 @@ questionRouter
       req.params.search_term
     )
       
-      .then(answers => {
-        res.json(answers)
+      .then(questions => {
+        res.json(questions)
       })
       
       .catch(next)
@@ -275,6 +275,20 @@ questionRouter
 
   questionRouter
   .route('/questions/:question_id')
+  .get((req, res, next) => {
+
+    QuestionsService.getQuestionById(
+      req.app.get('db'),
+      req.params.question_id
+    )
+      
+      .then(question => {
+        res.json(question)
+      })
+      
+      .catch(next)
+  })
+
   .all(requireAuth)
   .all((req, res, next) => {
     QuestionsService.getQuestionById(
