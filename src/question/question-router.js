@@ -1,32 +1,13 @@
 const express = require('express')
 const questionRouter = express.Router()
-const bodyParser = express.json()
-const { v4: uuid } = require('uuid')
-
 const QuestionsService = require('./questions-service')
 const UsersService = require('../users-service')
 const jsonParser = express.json()
-const xss = require('xss')
 const path = require('path')
 
 const { requireAuth } = require('../middleware/jwt-auth')
 
-/*
-function processAnswers(arrObj) {
-  
-  let outArr = [];
-  for (let i = 0; i < arrObj.length; i++ ){
-    let temp = {};
-    temp.answerId = arrObj[i]['answer_id'];
-    temp.questionId = arrObj[i]['question_id'];
-    temp.title = arrObj[i]['title'];
-    temp.contents = arrObj[i]['contents'];
-    temp.user = arrObj[i]['user_id'];
-    outArr.push(temp);
-  }
-  return outArr;
-}
-*/
+// -------------------------------------------- User endpoints
 
 questionRouter
   .route('/users/')
@@ -38,7 +19,6 @@ questionRouter
         return res.status(400).json({
           error: `Missing '${field}' in request body`
         })
-
 
     UsersService.hasUserWithUserName(
       req.app.get('db'),
@@ -85,6 +65,9 @@ questionRouter
       .catch(next)
   })
 
+  // -------------------------------------------- Answer endpoints
+
+
 questionRouter
   .route('/answersperquestion/:question_id')
 
@@ -95,7 +78,6 @@ questionRouter
     )
       
       .then(answers => {
-        //let procRev = processAnswers(answers);
         res.json(answers)
       })
       
@@ -117,12 +99,6 @@ questionRouter
         })
       }
     }
-/*
-    newAns.answer_id = newAns.answerId;
-    newAns.question_id = newAns.questionId;
-    delete newAns.answerId;
-    delete newAns.questionId;
-*/
     QuestionsService.insertAnswer(
       req.app.get('db'),
       newAns
@@ -130,7 +106,7 @@ questionRouter
     .then(answer => {
       res
         .status(201)
-        .location(path.posix.join(req.originalUrl/*, `/${answer.answer_id}`*/))
+        .location(path.posix.join(req.originalUrl))
         .json(answer)
     })
   .catch(next)
@@ -152,18 +128,6 @@ questionRouter
       })
       .catch(next)
   })
-  /*
-  .get((req, res, next) => {
-    res.json({
-      answerId: res.answer.answer_id,
-      questionId: xss(res.answer.question_id), 
-      title: res.answer.title,
-      contents: res.answer.contents,
-      user: res.answer.user_id
-    })
-
-  })
-  */
   .delete((req, res, next) => {
     QuestionsService.deleteAnswer(
       req.app.get('db'),
@@ -186,12 +150,6 @@ questionRouter
         }
       })
     }
-/*
-    updateAns.answer_id = updateAns.answerId;
-    updateAns.question_id = updateAns.questionId;
-    delete updateAns.answerId;
-    delete updateAns.questionId;
-    */
     QuestionsService.updateAnswer(
       req.app.get('db'),
       updateAns
@@ -203,7 +161,7 @@ questionRouter
   })
 
 
-//-------------------------------------------- Questions endpoints
+// -------------------------------------------- Question endpoints
 
   questionRouter
   .route('/questionsperuser/:user_id')
@@ -254,11 +212,6 @@ questionRouter
         })
       }
     }
-
-    //newAns.answer_id = newAns.answerId;
-    //newAns.question_id = newAns.questionId;
-    //delete newAns.answerId;
-    //delete newAns.questionId;
 
     QuestionsService.insertQuestion(
       req.app.get('db'),
@@ -328,12 +281,6 @@ questionRouter
         }
       })
     }
-/*
-    updateQue.answer_id = updateQue.answerId;
-    updateQue.question_id = updateQue.questionId;
-    delete updateQue.answerId;
-    delete updateQue.questionId;
-    */
     QuestionsService.updateQuestion(
       req.app.get('db'),
       updateQue
@@ -343,9 +290,5 @@ questionRouter
       })
       .catch(next)
   })
-
-
-
-
 
 module.exports = questionRouter

@@ -4,13 +4,6 @@ const QuestionsService = {
 
     },
     insertAnswer(knex, newAns) {
-        /*
-        let newId = knex.from('users').select('id').where('username', newAns.user).first()//.then(rows => {return rows[0]});
-        newAns.user_id = newId;
-        delete newAns.user;
-
-        console.log(newId);
-        */
 
         return knex
             .insert(newAns)
@@ -58,11 +51,6 @@ const QuestionsService = {
     getQuestionById(knex, question_id) {
         return knex.from('questions').select('*').where('question_id', question_id).first()
     },
-
-
-
-
-
 
 };
 

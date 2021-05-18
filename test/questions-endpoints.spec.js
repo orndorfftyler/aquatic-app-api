@@ -48,10 +48,11 @@ describe('Answer and User Endpoints', function() {
             expect(res.body.id).to.eql(expectedUserId.id)
           })
       })
-
       
     })
   })
+
+  // --------------------------------------------------- tests for answer endpoints 
 
   describe(`GET /answersperquestion/:question_id`, () => {
     
@@ -72,11 +73,9 @@ describe('Answer and User Endpoints', function() {
       })
 
         it(`responds with 200 and an empty list`, () => {
-          //const testUsers = makeUsersArray()
                 
           return supertest(app)
               .get('/api/answersperquestion/1a88da27-7b60-49a1-9393-829785e0a28d')
-              //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
 
               .expect(200, [])
         })
@@ -102,7 +101,6 @@ describe('Answer and User Endpoints', function() {
         const expectedAnswer = testAnswers[0]
         return supertest(app)
           .get(`/api/answersperquestion/9d440833-2834-4b18-a7c3-adfa743397bb`)
-          //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(res => {
             expect(res.body[0]['id']).to.eql(expectedAnswer.id)
             expect(res.body[0]['answer_id']).to.eql(expectedAnswer.answer_id)
@@ -193,10 +191,9 @@ describe('Answer and User Endpoints', function() {
           .insert(testAnswers)
       })
 
-
       it('responds with 204 and removes the answer', () => {
         const idToRemove = '7eac834c-a6df-496b-8104-6a813e2e3122'
-        const expectedAnswers = [];//testAnswers.filter(answer => answer.answer_id !== idToRemove)
+        const expectedAnswers = [];
         return supertest(app)
           .delete(`/api/answers/${idToRemove}`)
           .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -260,7 +257,8 @@ describe('Answer and User Endpoints', function() {
 
     })
   })
-//--------------------------------------------------- test for question endpoints 
+
+// --------------------------------------------------- tests for question endpoints 
 
 describe(`GET /questionsperuser/:user_id`, () => {
     
@@ -344,11 +342,9 @@ describe(`GET /questionsearch/:search_terms`, () => {
     })
 
       it(`responds with 200 and an empty list`, () => {
-        //const testUsers = makeUsersArray()
               
         return supertest(app)
             .get('/api/questionsearch/dragons')
-            //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
 
             .expect(200, [])
       })
@@ -374,7 +370,6 @@ describe(`GET /questionsearch/:search_terms`, () => {
       const expectedQuestion = testQuestions[0]
       return supertest(app)
         .get(`/api/questionsearch/turtles`)
-        //.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
         .expect(res => {
           expect(res.body[0]['id']).to.eql(expectedQuestion.id)
           expect(res.body[0]['answer_id']).to.eql(expectedQuestion.answer_id)
@@ -514,7 +509,7 @@ describe(`DELETE /api/questions/:answer_id`, () => {
 
     it('responds with 204 and removes the question', () => {
       const idToRemove = '9d440833-2834-4b18-a7c3-adfa743397bb'
-      const expectedQuestions = [];//testAnswers.filter(answer => answer.answer_id !== idToRemove)
+      const expectedQuestions = [];
       return supertest(app)
         .delete(`/api/questions/${idToRemove}`)
         .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -528,7 +523,6 @@ describe(`DELETE /api/questions/:answer_id`, () => {
     })
   })
 }) 
-
 
   
 })
