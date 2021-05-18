@@ -2,7 +2,7 @@
 
 Try out the app here: https://aquatic-app2.vercel.app/
 
-Aquatic Answers Client repo: https://github.com/orndorfftyler/aquatic-app-api
+Aquatic Answers Client repo: https://github.com/orndorfftyler/aquatic-app
 
 ### Summary
 
@@ -10,7 +10,7 @@ Aquatic Answers allows you to ask questions and get answers related to aquariums
 
 ### Tech Used
 
-Built with HTML, CSS, JavaScript, React, React Router, Node.js, Express, Knex, PostgresSQL.
+Built with HTML, CSS, JavaScript, React, React Router, Node.js, Express, Knex, PostgresSQL. \
 Frontend deployed using Vercel. Backend deployed using Heroku.
 
 ### API Documentation
