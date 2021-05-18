@@ -446,7 +446,7 @@ describe(`POST /questions/`, () => {
   })  
 }) 
 
-describe.only(`PATCH /api/questions/:question_id`, () => {
+describe(`PATCH /api/questions/:question_id`, () => {
   context('Given the question exists', () => {
     const testUsers = makeUsersArray()
     const testQuestions = helpers.makeQuestionsArray()
@@ -495,6 +495,39 @@ describe.only(`PATCH /api/questions/:question_id`, () => {
   })
 })
 
+describe(`DELETE /api/questions/:answer_id`, () => {
+  context('Given the question exists', () => {
+    const testUsers = makeUsersArray()
+    const testQuestions = helpers.makeQuestionsArray()
+
+    beforeEach('insert users', () => {
+      return db
+        .into('users')
+        .insert(testUsers)
+    })
+    beforeEach('insert questions', () => {
+      return db
+        .into('questions')
+        .insert(testQuestions)
+    })
+
+
+    it('responds with 204 and removes the question', () => {
+      const idToRemove = '9d440833-2834-4b18-a7c3-adfa743397bb'
+      const expectedQuestions = [];//testAnswers.filter(answer => answer.answer_id !== idToRemove)
+      return supertest(app)
+        .delete(`/api/questions/${idToRemove}`)
+        .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        .expect(204)
+        .then(res =>
+          supertest(app)
+            .get(`/api/questionsearch/turtles`)
+            .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+            .expect(expectedQuestions)
+        )
+    })
+  })
+}) 
 
 
   
