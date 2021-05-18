@@ -51,7 +51,7 @@ DELETE /api/answers/:answer_id
 
 Search page (mobile view):
 
-<img src="./screenshots/aquatic-answers-search.PNG" width="375">
+<img src="./screenshots/aquatic-answers-search.PNG" width="300">
 
 Question page:
 
