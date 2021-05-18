@@ -2,7 +2,7 @@
 
 Try out the app here: https://aquatic-app2.vercel.app/
 
-Aquatic Answers Client repo: https://github.com/orndorfftyler/booktrove-app
+Aquatic Answers Client repo: https://github.com/orndorfftyler/aquatic-app-api
 
 ### Summary
 
@@ -22,7 +22,6 @@ POST /api/auth/login
 
 GET /api/questionsearch/:search_terms
 - searches the questions table for entries matching the search terms
-- returns a maximum of ten results
 
 GET /api/questionsperuser/:user_id
 - gets all questions written by a specific user
