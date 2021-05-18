@@ -21,5 +21,4 @@ Login page:
 Search page:
 
 
-Book review page:
 
